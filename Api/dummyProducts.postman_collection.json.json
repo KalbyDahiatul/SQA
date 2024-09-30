@@ -1,0 +1,380 @@
+{
+	"info": {
+		"_postman_id": "5913e25c-d7c6-4968-87d0-30393665337b",
+		"name": "dummyProducts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36760307"
+	},
+	"item": [
+		{
+			"name": "get all products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm. response.json()\r",
+							"\r",
+							"// pm.test (\"status code is 200\", function()){\r",
+							"//     pm.response.to.have.status(201);\r",
+							"// });\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{main url}}/products",
+					"host": [
+						"{{main url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a single product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Title Name Validation\", function(){\r",
+							"    pm.expect(data.title).to.eql(\"Eyeshadow Palette with Mirror\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Catagory Name Validation\", function(){\r",
+							"    pm.expect(data.category).to.eql(\"beauty\");\r",
+							"});\r",
+							"\r",
+							"// Stores the product ID in an environment or global variable\r",
+							"var productId = pm.response.json().id;\r",
+							"pm.globals.set(\"productId\", productId);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{main url}}/products/{{id}}",
+					"host": [
+						"{{main url}}"
+					],
+					"path": [
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"  pm.expect(pm.response.code).to.equal(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - id and title\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('id');\r",
+							"    pm.expect(responseData).to.have.property('title');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Id is a positive integer\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData.id).to.be.a('number');\r",
+							"  pm.expect(responseData.id).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Title is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.title).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 195,\r\n  \"title\": \"BMW Pencil\"\r\n  /* other product data */\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/add",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"title\": \"Chanel Coco  Eau De\",\r\n    \"description\": \"Coco Noir by Chanel is an elegant and mysterious fragrance, featuring notes of grapefruit, rose, and sandalwood. Perfect for evening occasions.\",\r\n    \"category\": \"fragrances\",\r\n    \"price\": 130,\r\n    \"discountPercentage\": 18.64,\r\n    \"rating\": 2.76,\r\n    \"stock\": 41,\r\n    \"tags\": [\r\n        \"fragrances\",\r\n        \"perfumes\"\r\n    ],\r\n    \"brand\": \"Chanel\",\r\n    \"sku\": \"K71HBCGS\",\r\n    \"weight\": 4,\r\n    \"dimensions\": {\r\n        \"width\": 21.27,\r\n        \"height\": 28,\r\n        \"depth\": 11.89\r\n    },\r\n    \"warrantyInformation\": \"1 week warranty\",\r\n    \"shippingInformation\": \"Ships in 1 month\",\r\n    \"availabilityStatus\": \"In Stock\",\r\n    \"reviews\": [\r\n        {\r\n            \"rating\": 1,\r\n            \"comment\": \"Disappointing product!\",\r\n            \"date\": \"2024-05-23T08:56:21.619Z\",\r\n            \"reviewerName\": \"Lincoln Kelly\",\r\n            \"reviewerEmail\": \"lincoln.kelly@x.dummyjson.com\"\r\n        },\r\n        {\r\n            \"rating\": 4,\r\n            \"comment\": \"Great product!\",\r\n            \"date\": \"2024-05-23T08:56:21.619Z\",\r\n            \"reviewerName\": \"Lincoln Kelly\",\r\n            \"reviewerEmail\": \"lincoln.kelly@x.dummyjson.com\"\r\n        },\r\n        {\r\n            \"rating\": 4,\r\n            \"comment\": \"Excellent quality!\",\r\n            \"date\": \"2024-05-23T08:56:21.619Z\",\r\n            \"reviewerName\": \"Lucas Allen\",\r\n            \"reviewerEmail\": \"lucas.allen@x.dummyjson.com\"\r\n        }\r\n    ],\r\n    \"returnPolicy\": \"60 days return policy\",\r\n    \"minimumOrderQuantity\": 5,\r\n    \"meta\": {\r\n        \"createdAt\": \"2024-05-23T08:56:21.619Z\",\r\n        \"updatedAt\": \"2024-05-23T08:56:21.619Z\",\r\n        \"barcode\": \"1435582999795\",\r\n        \"qrCode\": \"https://assets.dummyjson.com/public/qr-code.png\"\r\n    },\r\n    \"images\": [\r\n        \"https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png\",\r\n        \"https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/2.png\",\r\n        \"https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/3.png\"\r\n    ],\r\n    \"thumbnail\": \"https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/thumbnail.png\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.include.all.keys('id', 'title', 'price', 'discountPercentage', 'stock', 'rating', 'images', 'thumbnail', 'description', 'brand', 'category');\r",
+							"    \r",
+							"    pm.test(\"Price is a non-negative number\", function () {\r",
+							"        pm.expect(responseData.price).to.be.a('number');\r",
+							"        pm.expect(responseData.price).to.be.at.least(0, \"Price should be a non-negative number\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"DiscountPercentage is a number between 0 and 100\", function () {\r",
+							"        pm.expect(responseData.discountPercentage).to.be.a('number');\r",
+							"        pm.expect(responseData.discountPercentage).to.be.within(0, 100);\r",
+							"    });\r",
+							"});\r",
+							"// Stores the product id in an environment or global variable\r",
+							"var productId = pm.response.json().id;\r",
+							"pm.environment.set(\"productId\", productId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"discountPercentage\": 18\r\n \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the response schema for the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.id).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.title).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.description).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.category).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.price).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.discountPercentage).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.rating).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.stock).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.tags).to.exist.and.to.be.an('array');\r",
+							"    pm.expect(responseData.brand).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.sku).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.weight).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.dimensions).to.exist.and.to.be.an('object');\r",
+							"    pm.expect(responseData.warrantyInformation).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.shippingInformation).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.availabilityStatus).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.reviews).to.exist.and.to.be.an('array');\r",
+							"    pm.expect(responseData.returnPolicy).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.minimumOrderQuantity).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.meta).to.exist.and.to.be.an('object');\r",
+							"    pm.expect(responseData.images).to.exist.and.to.be.an('array');\r",
+							"    pm.expect(responseData.thumbnail).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.isDeleted).to.exist.and.to.be.a('boolean');\r",
+							"    pm.expect(responseData.deletedOn).to.exist.and.to.be.a('string');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/7",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
